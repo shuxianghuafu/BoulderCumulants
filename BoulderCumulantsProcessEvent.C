@@ -359,6 +359,16 @@ int BoulderCumulants::process_event(PHCompositeNode *topNode)
   EventRecursion(this_event);
   EventOldStyle(this_event);
 
+  // --- structure seems to be getting set correctly...
+  if ( _verbosity > 1 )
+    {
+      cout << nfvtxt << " " << this_event.nfvtxt << " " << fphi.size() << " " << this_event.phi.size() << endl;
+      for ( int i = 0; i < nfvtxt; ++i )
+        {
+          cout << fphi[i] << " " << this_event.phi[i] << endl;
+        }
+    }
+
   return EVENT_OK;
 
 } // end of process_event
