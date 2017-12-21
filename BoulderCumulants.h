@@ -3,6 +3,7 @@
 
 // standard includes
 #include <string>
+#include <vector>
 #include <SubsysReco.h>
 #include "TComplex.h"
 
@@ -42,6 +43,9 @@ class BoulderCumulants: public SubsysReco
   void set_nhitcut(int n){_cut_nhit = n;}
 
  protected:
+
+  // --- do the recursion
+  int EventRecursion();
 
   // --- special event cuts
   bool PassesTracksChargeRatio(int, double);
@@ -89,6 +93,23 @@ class BoulderCumulants: public SubsysReco
   static const double default_cut_chi2 = 5.0;
   static const double default_cut_dca = 2.0;
   static const int default_cut_nhit = 3;
+
+  struct EventWithGoodTracks
+  {
+    int centrality;
+    int nfvtxt;
+    double zvtx;
+    std::vector<double> phi;
+    std::vector<double> eta;
+    std::vector<double> dcax;
+    std::vector<double> dcay;
+    std::vector<double> chi2;
+    std::vector<double> nhit;
+    std::vector<double> nhsp;
+    std::vector<bool> pdbl;
+  };
+
+  EventWithGoodTracks this_event;
 
   /// current event
   unsigned long _ievent;
