@@ -368,6 +368,9 @@ int BoulderCumulants::process_event(PHCompositeNode *topNode)
 int BoulderCumulants::EventOldStyle()
 {
 
+  int centrality = this_event.centrality;
+  int nfvtxt = this_event.nfvtxt;
+
   // --- fvtx tracks
   float fvtxs_tracks_qx2[3]; // both, inner, outer
   float fvtxs_tracks_qy2[3];
