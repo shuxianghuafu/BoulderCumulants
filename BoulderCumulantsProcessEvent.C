@@ -40,7 +40,7 @@ int BoulderCumulants::process_event(PHCompositeNode *topNode)
 
   event = _ievent;
 
-  //EventWithGoodTracks this_event;
+  EventWithGoodTracks this_event;
   this_event.centrality = -9;
   this_event.nfvtxt = -9;
   this_event.zvtx = -9;
@@ -356,8 +356,8 @@ int BoulderCumulants::process_event(PHCompositeNode *topNode)
   th1d_centralityA->Fill(centrality);
 
   // --- this_event is now all set, so run the recursion
-  EventRecursion();
-  EventOldStyle();
+  EventRecursion(this_event);
+  EventOldStyle(this_event);
 
   return EVENT_OK;
 
@@ -365,7 +365,7 @@ int BoulderCumulants::process_event(PHCompositeNode *topNode)
 
 
 
-int BoulderCumulants::EventOldStyle()
+int BoulderCumulants::EventOldStyle(EventWithGoodTracks& this_event)
 {
 
   int centrality = this_event.centrality;
@@ -964,7 +964,8 @@ int BoulderCumulants::EventOldStyle()
 } // end of EventOldStyle
 
 
-int BoulderCumulants::EventRecursion()
+
+int BoulderCumulants::EventRecursion(EventWithGoodTracks& this_event)
 {
 
   int centrality = this_event.centrality;

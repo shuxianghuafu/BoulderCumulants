@@ -42,11 +42,29 @@ class BoulderCumulants: public SubsysReco
   void set_dcacut(double d){_cut_dca = d;}
   void set_nhitcut(int n){_cut_nhit = n;}
 
+  struct EventWithGoodTracks
+  {
+    int centrality;
+    int nfvtxt;
+    double zvtx;
+    std::vector<double> phi;
+    std::vector<double> eta;
+    std::vector<double> dcax;
+    std::vector<double> dcay;
+    std::vector<double> chi2;
+    std::vector<double> nhit;
+    std::vector<double> nhsp;
+    std::vector<bool> pdbl;
+  };
+
  protected:
 
-  // --- do the recursion
-  int EventRecursion();
-  int EventOldStyle();
+  //EventWithGoodTracks this_event;
+
+  int EventRecursion(EventWithGoodTracks&);
+  int EventOldStyle(EventWithGoodTracks&);
+  //int EventRecursion();
+  //int EventOldStyle();
 
   // --- special event cuts
   bool PassesTracksChargeRatio(int, double);
@@ -94,23 +112,6 @@ class BoulderCumulants: public SubsysReco
   static const double default_cut_chi2 = 5.0;
   static const double default_cut_dca = 2.0;
   static const int default_cut_nhit = 3;
-
-  struct EventWithGoodTracks
-  {
-    int centrality;
-    int nfvtxt;
-    double zvtx;
-    std::vector<double> phi;
-    std::vector<double> eta;
-    std::vector<double> dcax;
-    std::vector<double> dcay;
-    std::vector<double> chi2;
-    std::vector<double> nhit;
-    std::vector<double> nhsp;
-    std::vector<bool> pdbl;
-  };
-
-  EventWithGoodTracks this_event;
 
   /// current event
   unsigned long _ievent;
