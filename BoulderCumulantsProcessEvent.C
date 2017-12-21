@@ -629,6 +629,26 @@ int BoulderCumulants::process_event(PHCompositeNode *topNode)
            << " ratio " << passratio << endl;
     }
 
+  th1d_nfvtxt_combinedER->Fill(nfvtxt);
+  th1d_nfvtxt_combined->Fill(nfvtxt);
+  th1d_nfvtxt_north->Fill(nfvtxt_north);
+  th1d_nfvtxt_south->Fill(nfvtxt_south);
+  th2d_nfvtxt_northsouth->Fill(nfvtxt_north,nfvtxt_south);
+
+  th1d_centrality->Fill(centrality);
+  th2d_nfvtxt_bbcsum->Fill(nfvtxt,bbc_charge_sum);
+  th2d_nfvtxt_centrality->Fill(nfvtxt,centrality);
+  th2d_nfvtxt_bbcsumratio->Fill(nfvtxt,bbc_charge_sum/(float)nfvtxt);
+
+  bool passes = PassesTracksChargeRatio(nfvtxt,bbc_charge_sum);
+  if ( _collsys == "Run14AuAu200" && !passes )
+    {
+      if ( _verbosity > 1 ) cout << "Making special event cut for " << _collsys << endl;
+      return EVENT_OK; // now testing revised cut...
+    }
+  th2d_nfvtxt_centralityA->Fill(nfvtxt,centrality);
+  th1d_centralityA->Fill(centrality);
+
   // --- this_event is now all set, so run the recursion
   int er = EventRecursion();
   if ( er < 0 ) cout << "RECURSION FAILED!!! WHY???" << endl;
@@ -772,26 +792,6 @@ int BoulderCumulants::process_event(PHCompositeNode *topNode)
     } // end third for loop over tracks
 
 
-
-  th1d_nfvtxt_combinedER->Fill(nfvtxt);
-  th1d_nfvtxt_combined->Fill(nfvtxt);
-  th1d_nfvtxt_north->Fill(nfvtxt_north);
-  th1d_nfvtxt_south->Fill(nfvtxt_south);
-  th2d_nfvtxt_northsouth->Fill(nfvtxt_north,nfvtxt_south);
-
-  th1d_centrality->Fill(centrality);
-  th2d_nfvtxt_bbcsum->Fill(nfvtxt,bbc_charge_sum);
-  th2d_nfvtxt_centrality->Fill(nfvtxt,centrality);
-  th2d_nfvtxt_bbcsumratio->Fill(nfvtxt,bbc_charge_sum/(float)nfvtxt);
-
-  bool passes = PassesTracksChargeRatio(nfvtxt,bbc_charge_sum);
-  if ( _collsys == "Run14AuAu200" && !passes )
-    {
-      if ( _verbosity > 1 ) cout << "Making special event cut for " << _collsys << endl;
-      return EVENT_OK; // now testing revised cut...
-    }
-  th2d_nfvtxt_centralityA->Fill(nfvtxt,centrality);
-  th1d_centralityA->Fill(centrality);
 
   //---------------------------------------------------------//
   //                 finished Get FVTX Tracks
