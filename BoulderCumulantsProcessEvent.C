@@ -247,7 +247,7 @@ int BoulderCumulants::EventRecursion()
       centrality_recoffsets_south[1][cs]->Fill(centrality,Qvector_south[cs][1].Im()/Qvector_south[0][1].Re());
     }
 
-  return 0;
+  return EVENT_OK;
 
 } // end of BoulderCumulants::EventRecursion
 
@@ -582,8 +582,16 @@ int BoulderCumulants::process_event(PHCompositeNode *topNode)
 
   // --- this_event is now all set, so run the recursion
   EventRecursion();
+  EventOldStyle();
+
+  return EVENT_OK;
+
+} // end of process_event
 
 
+
+int BoulderCumulants::EventOldStyle()
+{
 
   // --- fvtx tracks
   float fvtxs_tracks_qx2[3]; // both, inner, outer
@@ -660,13 +668,13 @@ int BoulderCumulants::process_event(PHCompositeNode *topNode)
   for ( int i = 0; i < nfvtxt; ++i )
     {
       // --- double track cut
-      if ( do_double_track_cut && !fvtx_track_passes[i] ) continue;
-      double eta = feta[i];
-      double phi = fphi[i];
-      double DCA_x = fdcax[i];
-      double DCA_y = fdcay[i];
-      double chisq = fchi2ndf[i];
-      int nhits_special = fnhitspc[i];
+      if ( do_double_track_cut && !this_event.pdbl[i] ) continue;
+      double eta = this_event.eta[i];
+      double phi = this_event.phi[i];
+      double DCA_x = this_event.dcax[i];
+      double DCA_y = this_event.dcay[i];
+      double chisq = this_event.chi2[i];
+      int nhits_special = this_event.nhsp[i];
       // --- need to do different cuts here
       if ( nhits_special < _cut_nhit ) continue; // need at least 3 hits in FVTX, excluding VTX
       if ( fabs(DCA_x) > _cut_dca || fabs(DCA_y) > _cut_dca ) continue;

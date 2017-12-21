@@ -46,6 +46,7 @@ class BoulderCumulants: public SubsysReco
 
   // --- do the recursion
   int EventRecursion();
+  int EventOldStyle();
 
   // --- special event cuts
   bool PassesTracksChargeRatio(int, double);
